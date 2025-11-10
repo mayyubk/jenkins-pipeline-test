@@ -6,6 +6,7 @@ pipeline {
             steps {
                 echo 'Hello from a Pipeline in GitHub!'
                 echo 'The webhook worked!'
+                echo 'The webhook worked2!'
                 
             }
         }
