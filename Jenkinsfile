@@ -1,25 +1,29 @@
 pipeline {
-    agent any // We'll run this on the main Jenkins server for simplicity
+    agent any
 
     stages {
         stage('Build') {
             steps {
-                echo 'This is the Build stage.'
-                echo 'Here we would run "docker build"...'
+                echo 'Starting the Build stage...'
+                // This is the new, important command
+                sh 'docker build -t my-first-image .'
+                echo 'Build stage complete!'
             }
         }
         
         stage('Test') {
             steps {
                 echo 'This is the Test stage.'
-                echo 'Here we would run unit tests...'
+                // A real test would be:
+                // sh 'docker run --rm my-first-image <test-command>'
             }
         }
         
         stage('Deploy') {
             steps {
                 echo 'This is the Deploy stage.'
-                echo 'Here we would push to a server...'
+                // A real deploy would be:
+                // sh 'docker push my-first-image'
             }
         }
     }
