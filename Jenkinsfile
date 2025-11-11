@@ -23,7 +23,7 @@ pipeline {
             steps {
                 echo 'Starting the Test stage...'
                 // Test the new image name
-                sh "docker run --rm ${env.DOKCER_USERNAME}/my-first-image cat /usr/share/nginx/html/index.html"
+                sh "docker run --rm ${env.DOCKER_USERNAME}/my-first-image cat /usr/share/nginx/html/index.html"
                 echo 'Test stage complete!'
             }
         }
