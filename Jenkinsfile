@@ -10,6 +10,7 @@ pipeline {
         stage('Run in a container') {
             steps {
                 // This command runs *inside* the busybox container
+                 // This command runs *inside* the busybox container
                 echo 'I am running inside a Docker container!'
 
                 // Let's prove it by running a command
