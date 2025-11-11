@@ -5,7 +5,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Starting the Build stage...'
-                // This is the new, important command
                 sh 'docker build -t my-first-image .'
                 echo 'Build stage complete!'
             }
@@ -13,17 +12,19 @@ pipeline {
         
         stage('Test') {
             steps {
-                echo 'This is the Test stage.'
-                // A real test would be:
-                // sh 'docker run --rm my-first-image <test-command>'
+                echo 'Starting the Test stage...'
+                
+                // This is our new test command!
+                // It runs the container and checks the file inside.
+                sh 'docker run --rm my-first-image cat /usr/share/nginx/html/index.html'
+                
+                echo 'Test stage complete!'
             }
         }
         
         stage('Deploy') {
             steps {
-                echo 'This is the Deploy stage.'
-                // A real deploy would be:
-                // sh 'docker push my-first-image'
+                echo 'This is the Deploy stage. We will tackle this next.'
             }
         }
     }
