@@ -1,21 +1,25 @@
 pipeline {
-    // Here, we're not running on the main server.
-    // We're telling Jenkins to run this pipeline
-    // inside a 'busybox' container...
-    agent {
-        docker { image 'busybox:latest' }
-    }
+    agent any // We'll run this on the main Jenkins server for simplicity
 
     stages {
-        stage('Run in a container') {
+        stage('Build') {
             steps {
-                // This command runs *inside* the busybox container
-                 // This command runs *inside* the busybox container
-                echo 'I am running inside a Docker container!'
-
-                // Let's prove it by running a command
-                // that only exists inside the container.
-                sh 'uname -a'
+                echo 'This is the Build stage.'
+                echo 'Here we would run "docker build"...'
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                echo 'This is the Test stage.'
+                echo 'Here we would run unit tests...'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                echo 'This is the Deploy stage.'
+                echo 'Here we would push to a server...'
             }
         }
     }
