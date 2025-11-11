@@ -1,11 +1,20 @@
 pipeline {
     agent any
 
+    environment {
+        // Defines the ID of the credentials we saved
+        DOCKER_CREDS = credentials('dockerhub-credentials') 
+        
+        // IMPORTANT: Replace this with your Docker Hub username
+        DOCKER_USERNAME = 'ayyubkhan'
+    }
+
     stages {
         stage('Build') {
             steps {
                 echo 'Starting the Build stage...'
-                sh 'docker build -t my-first-image .'
+                // Tag the image with the Docker Hub username
+                sh "docker build -t ${env.DOCKER_USERNAME}/my-first-image ."
                 echo 'Build stage complete!'
             }
         }
@@ -13,18 +22,25 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Starting the Test stage...'
-                
-                // This is our new test command!
-                // It runs the container and checks the file inside.
-                sh 'docker run --rm my-first-image cat /usr/share/nginx/html/index.html'
-                
+                // Test the new image name
+                sh "docker run --rm ${env.DOKCER_USERNAME}/my-first-image cat /usr/share/nginx/html/index.html"
                 echo 'Test stage complete!'
             }
         }
         
         stage('Deploy') {
             steps {
-                echo 'This is the Deploy stage. We will tackle this next.'
+                echo 'Starting the Deploy stage...'
+                
+                // Securely log in to Docker Hub
+                // Jenkins injects the username into DOCKER_CREDS_USR
+                // and the password into DOCKER_CREDS_PSW
+                sh "docker login -u ${env.DOCKER_CREDS_USR} -p ${env.DOCKER_CREDS_PSW}"
+                
+                // Push the image to Docker Hub
+                sh "docker push ${env.DOCKER_USERNAME}/my-first-image"
+                
+                echo 'Deploy stage complete!'
             }
         }
     }
