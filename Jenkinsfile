@@ -1,7 +1,7 @@
 pipeline {
     // Here, we're not running on the main server.
     // We're telling Jenkins to run this pipeline
-    // inside a 'busybox' container.
+    // inside a 'busybox' container..
     agent {
         docker { image 'busybox:latest' }
     }
